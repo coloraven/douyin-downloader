@@ -31,9 +31,12 @@ class Douyin(object):
         # findall() 查找匹配正则表达式的字符串
         return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)[0]
 
-    # 得到 作品id 或者 用户id
-    # 传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
+
     def getKey(self, url):
+        """    
+        传入 url 返回 key_type, key == 作品类型 , 作品id 或者 用户id
+        传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
+        """
         key = None
         key_type = None
 
@@ -99,9 +102,13 @@ class Douyin(object):
 
         return key_type, key
 
-    # 传入 aweme_id
-    # 返回 数据 字典
-    def getAwemeInfo(self, aweme_id):
+
+    def getAwemeInfo(self, aweme_id:str)-> tuple[dict, dict]:
+        """
+        获取单个作品信息
+        传入 aweme_id:视频ID
+        返回 数据 字典
+        """
         print('[  提示  ]:正在请求的作品 id = %s\r' % aweme_id)
         if aweme_id is None:
             return None
@@ -116,8 +123,8 @@ class Douyin(object):
                     f'aweme_id={aweme_id}&device_platform=webapp&aid=6383')
 
                 raw = requests.get(url=jx_url, headers=douyin_headers).text
-                datadict = json.loads(raw)
-                if datadict is not None and datadict["status_code"] == 0:
+                raw_awemeDict = json.loads(raw)
+                if raw_awemeDict is not None and raw_awemeDict["status_code"] == 0:
                     break
             except Exception as e:
                 end = time.time()  # 结束时间
@@ -133,15 +140,15 @@ class Douyin(object):
         awemeType = 0
         try:
             # datadict['aweme_detail']["images"] 不为 None 说明是图集
-            if datadict['aweme_detail']["images"] is not None:
+            if raw_awemeDict['aweme_detail']["images"] is not None:
                 awemeType = 1
         except Exception as e:
             print("[  警告  ]:接口中未找到 images\r")
 
         # 转换成我们自己的格式
-        self.result.dataConvert(awemeType, self.result.awemeDict, datadict['aweme_detail'])
-
-        return self.result.awemeDict, datadict
+        self.result.dataConvert(awemeType, self.result.awemeDict, raw_awemeDict['aweme_detail'])
+        new_awemeDict = self.result.awemeDict
+        return new_awemeDict, raw_awemeDict
 
     # 传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
     # mode : post | like 模式选择 like为用户点赞 post为用户发布

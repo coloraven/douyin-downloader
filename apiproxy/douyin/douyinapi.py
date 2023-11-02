@@ -20,14 +20,21 @@ class DouyinApi(object):
         # 用于设置重复请求某个接口的最大时间
         self.timeout = 10
 
-    # 从分享链接中提取网址
-    def getShareLink(self, string):
+
+    def getShareLink(self, string:str)->str:
+        """
+        从APP分享信息中中提取网址
+        """
         # findall() 查找匹配正则表达式的字符串
         return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)[0]
 
-    # 得到 作品id 或者 用户id
-    # 传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
-    def getKey(self, url):
+    # 
+    # 
+    def getKey(self, url:str)->tuple(str,str):
+        """
+        传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
+        得到 作品id 或者 用户id
+        """
         key = None
         key_type = None
 
@@ -93,7 +100,11 @@ class DouyinApi(object):
 
         return key_type, key
 
-    def getAwemeInfoApi(self, aweme_id):
+    def getAwemeInfoApi(self, aweme_id:str)->tuple(dict,dict):
+        """
+        传入视频ID
+        返回自定义json格式数据和原始返回json数据
+        """
         if aweme_id is None:
             return None
         start = time.time()  # 开始时间
@@ -103,8 +114,8 @@ class DouyinApi(object):
                     f'aweme_id={aweme_id}&device_platform=webapp&aid=6383')
 
                 raw = requests.get(url=jx_url, headers=douyin_headers).text
-                datadict = json.loads(raw)
-                if datadict is not None and datadict["status_code"] == 0:
+                raw_dict = json.loads(raw)
+                if raw_dict is not None and raw_dict["status_code"] == 0:
                     break
             except Exception as e:
                 end = time.time()  # 结束时间
@@ -117,17 +128,21 @@ class DouyinApi(object):
         # 默认为视频
         awemeType = 0
         try:
-            if datadict['aweme_detail']["images"] is not None:
+            if raw_dict['aweme_detail']["images"] is not None:
                 awemeType = 1
         except Exception as e:
             pass
 
         # 转换成我们自己的格式
-        self.result.dataConvert(awemeType, self.result.awemeDict, datadict['aweme_detail'])
+        self.result.dataConvert(awemeType, self.result.awemeDict, raw_dict['aweme_detail'])
 
-        return self.result.awemeDict, datadict
+        return self.result.awemeDict, raw_dict
 
     def getUserInfoApi(self, sec_uid, mode="post", count=35, max_cursor=0):
+        """
+        传入sec_uid：用户ID
+        获取用户信息
+        """
         if sec_uid is None:
             return None
 
@@ -175,6 +190,9 @@ class DouyinApi(object):
         return awemeList, datadict, datadict["max_cursor"], datadict["has_more"]
 
     def getLiveInfoApi(self, web_rid: str):
+        """
+        获取直播信息
+        """
         start = time.time()  # 开始时间
         while True:
             try:
@@ -245,6 +263,9 @@ class DouyinApi(object):
         return self.result.liveDict, live_json
 
     def getMixInfoApi(self, mix_id: str, count=35, cursor=0):
+        """
+        获取单个合集信息
+        """
         if mix_id is None:
             return None
 
@@ -287,7 +308,9 @@ class DouyinApi(object):
         return awemeList, datadict, datadict["cursor"], datadict["has_more"]
 
     def getUserAllMixInfoApi(self, sec_uid, count=35, cursor=0):
-
+        """
+        获取用户所有合集信息
+        """
         if sec_uid is None:
             return None
 
@@ -316,6 +339,9 @@ class DouyinApi(object):
         return mixIdlist, datadict, datadict["cursor"], datadict["has_more"]
 
     def getMusicInfoApi(self, music_id: str, count=35, cursor=0):
+        """
+        获取音乐信息
+        """
         if music_id is None:
             return None
 
@@ -357,6 +383,9 @@ class DouyinApi(object):
         return awemeList, datadict, datadict["cursor"], datadict["has_more"]
 
     def getUserDetailInfoApi(self, sec_uid):
+        """
+        获取用户详细信息
+        """
         if sec_uid is None:
             return None
 

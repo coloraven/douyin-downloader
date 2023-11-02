@@ -22,7 +22,13 @@ class Download(object):
         self.resjson = resjson
         self.folderstyle = folderstyle
 
+
     def progressBarDownload(self, url, filepath, desc):
+        """
+        传入请求路径、保存路径、备注
+        将视频、图片、音乐等下载并保存
+        # 无返回
+        """
         response = requests.get(url, stream=True, headers=douyin_headers)
         chunk_size = 1024  # 每次下载的数据大小
         content_size = int(response.headers['content-length'])  # 下载文件总大小
@@ -65,7 +71,6 @@ class Download(object):
                 try:
                     with open(os.path.join(aweme_path, file_name + "_result.json"), "w", encoding='utf-8') as f:
                         f.write(json.dumps(awemeDict, ensure_ascii=False, indent=2))
-                        f.close()
                 except Exception as e:
                     print("[  错误  ]:保存 result.json 失败... 作品名: " + file_name + "\r\n")
 

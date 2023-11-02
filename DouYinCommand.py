@@ -275,7 +275,7 @@ def main():
         print("--------------------------------------------------------------------------------")
         print("[  提示  ]:正在请求的链接: " + link + "\r\n")
         url = dy.getShareLink(link)
-        key_type, key = dy.getKey(url)
+        key_type, key = dy.getKey(url) # key为视频ID
         if key_type == "user":
             print("[  提示  ]:正在请求用户主页下作品\r\n")
             data = dy.getUserDetailInfo(sec_uid=key)
@@ -331,10 +331,10 @@ def main():
                 dl.userDownload(awemeList=datalist, savePath=musicPath)
         elif key_type == "aweme":
             print("[  提示  ]:正在请求单个作品\r\n")
-            datanew, dataraw = dy.getAwemeInfo(key)
-            if datanew is not None and datanew != {}:
+            data_new, data_raw = dy.getAwemeInfo(key)
+            if data_new is not None and data_new != {}:
                 datalist = []
-                datalist.append(datanew)
+                datalist.append(data_new)
                 awemePath = os.path.join(configModel["path"], "aweme")
                 if not os.path.exists(awemePath):
                     os.mkdir(awemePath)
