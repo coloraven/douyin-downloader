@@ -1,0 +1,14 @@
+{
+  "aweme_detail": null,
+  "filter_detail": {
+    "aweme_id": "7295068306564861199",
+    "detail_msg": "由于对方隐私设置，无法查看，去看看其他作品吧",
+    "filter_reason": "status_friend_see",
+    "icon": "https://p3.douyinpic.com/aweme-server-static-resource/reflow_notice_icon2.png~tplv-obj.image",
+    "notice": "作品暂时无法查看"
+  },
+  "log_pb": {
+    "impr_id": "202311050757239D3DD4BADD6B01CE78AF"
+  },
+  "status_code": 0
+}

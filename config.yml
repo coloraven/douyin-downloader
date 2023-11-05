@@ -12,9 +12,9 @@
 # 可以设置多个链接, 确保至少一个链接
 # 必选
 link:
-  -  https://v.douyin.com/kVefc81/
-  -  https://v.douyin.com/kVdkdxY/
-  -  https://v.douyin.com/kVdMcrr/
+  - https://v.douyin.com/iRdgDTvd/
+  - https://v.douyin.com/iRdp6phA/
+
 
 # 下载保存位置, 默认当前文件位置
 # 必选
@@ -22,21 +22,21 @@ path: ./Downloaded/
 
 # 是否下载视频中的音乐(True/False), 默认为True
 # 可选
-music: True
+music: False
 
 # 是否下载视频的封面(True/False), 默认为True, 当下载视频时有效
 # 可选
-cover: True
+cover: False
 
 # 是否下载作者的头像(True/False), 默认为True
 # 可选
-avatar: True
+avatar: False
 
 # 是否保存获取到的数据(True/False), 默认为True
 # 可选
 json: True
 
-folderstyle: True # True -> 每个视频是一个单独的文件夹; False -> 所有视频共用一个文件夹
+folderstyle: False #  True -> 每个视频是一个单独的文件夹;    False -> 所有视频共用一个文件夹
 # True
 # user_xxx_xxx
 #   - like/post/mix
@@ -56,7 +56,7 @@ folderstyle: True # True -> 每个视频是一个单独的文件夹; False -> �
 mode:
   - post
   - like
-  - mix
+  # - mix
 
 # 下载作品个数设置
 # 可选
@@ -67,7 +67,7 @@ number:
   mix: 5      # 单个合集下作品下载个数设置, 默认为0 全部下载
   music: 5    # 音乐(原声)下作品下载个数设置, 默认为0 全部下载
 
-database: True # 如果不使用数据库, 增量更新将不可用
+database: False # 如果不使用数据库, 增量更新将不可用
 
 
 
@@ -93,22 +93,21 @@ thread: 5
 # cookies 和 cookie 二选一, 要使用这种形式, 请注释下面的cookie
 # 目前只需要msToken、ttwid、odin_tt、passport_csrf_token、sid_guard
 # 可以动态添加, 程序会根据填的键查找，并没有写死, 如果抖音需要更多的cookie自己加上就行了
-cookies:
-  # msToken: xxx
-  # ttwid: xxx
-  # odin_tt: xxx
-  # passport_csrf_token: xxx
-  # sid_guard: xxx
-  msToken: V2Z81awjFqi9-xY2nF9Nzt5pAx8cIJ_NyEgaASXpiLTQp3RoNL9aNajtz3TR9PGGYr5HIfDn7xN6xcIG3ry0qL6Dz4OoOJXLOapbPwo6g_6_wayun026cgrnsNyh_lY=
-  ttwid: 1%7CuvVSCs3TrpXCLYPdGOm9kOZi2KfPl3aQMokwAT4p2gw%7C1668686667%7C407e79f41c1d3c7beda53f6535064dc5a07eee68d9a372c4ab360f4bfa0b838b
-  odin_tt: 6f8f0b66fda782f9950e77dbf9aef97aaba0ae6f8b569a9b015a97c16630db81138ce3cc0d9e9a751b76c4a841241ae6
-  passport_csrf_token: 99d9b8c4945dac0fd2998b5b56de6929
-  sid_guard: 66d7a2432d3b509a108656d2dc4a4ed5%7C1685000706%7C5183999%7CMon%2C+24-Jul-2023+07%3A45%3A05+GMT
+# cookies:
+#   # msToken: xxx
+#   # ttwid: xxx
+#   # odin_tt: xxx
+#   # passport_csrf_token: xxx
+#   # sid_guard: xxx
+#   msToken: V2Z81awjFqi9-xY2nF9Nzt5pAx8cIJ_NyEgaASXpiLTQp3RoNL9aNajtz3TR9PGGYr5HIfDn7xN6xcIG3ry0qL6Dz4OoOJXLOapbPwo6g_6_wayun026cgrnsNyh_lY=
+#   ttwid: 1%7CuvVSCs3TrpXCLYPdGOm9kOZi2KfPl3aQMokwAT4p2gw%7C1668686667%7C407e79f41c1d3c7beda53f6535064dc5a07eee68d9a372c4ab360f4bfa0b838b
+#   odin_tt: 6f8f0b66fda782f9950e77dbf9aef97aaba0ae6f8b569a9b015a97c16630db81138ce3cc0d9e9a751b76c4a841241ae6
+#   passport_csrf_token: 99d9b8c4945dac0fd2998b5b56de6929
+#   sid_guard: 66d7a2432d3b509a108656d2dc4a4ed5%7C1685000706%7C5183999%7CMon%2C+24-Jul-2023+07%3A45%3A05+GMT
 
 # cookie 请登录网页抖音后F12查看
 # cookies 和 cookie 二选一, 要使用这种形式, 请注释上面的cookies及包含的所有键值对
 # 设置了这个后上面的cookies选项自动失效, 这个优先级更高
 # 格式: "name1=value1; name2=value2;" 注意要加冒号
 # 冒号中的内容包括不限于以下键值对, 如果抖音需要更多的cookie自己加上就行了
-#cookie: "msToken=xxx; ttwid=xxx; odin_tt=xxx; passport_csrf_token=xxx; sid_guard=xxx;"
-
+cookie: 'ttwid=0d'

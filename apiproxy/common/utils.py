@@ -106,7 +106,7 @@ class Utils(object):
         f = []
         f.extend([2, 255])
         tmp = ['ÿ']
-        bytes_ = self._0x30492c(tmp, "".join(char_array))
+        bytes_ = self.other_func(tmp, "".join(char_array))
 
         for i in range(len(bytes_)):
             f.append(bytes_[i])
@@ -121,7 +121,7 @@ class Utils(object):
         salt_form = [byte for byte in salt_form_bytes]
 
         ua_key = ['\u0000', '\u0001', '\u000e']
-        salt_ua_bytes = hashlib.md5(base64.b64encode(self._0x30492c(ua_key, ua))).digest()
+        salt_ua_bytes = hashlib.md5(base64.b64encode(self.other_func(ua_key, ua))).digest()
         salt_ua = [byte for byte in salt_ua_bytes]
 
         timestamp = int(time.time())
@@ -157,7 +157,7 @@ class Utils(object):
 
         return arr2
 
-    def _0x30492c(self, a, b):
+    def other_func(self, a, b):
         d = [i for i in range(256)]
         c = 0
         result = bytearray(len(b))

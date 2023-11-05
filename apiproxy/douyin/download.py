@@ -70,7 +70,7 @@ class Download(object):
             if self.resjson:
                 try:
                     with open(os.path.join(aweme_path, file_name + "_result.json"), "w", encoding='utf-8') as f:
-                        f.write(json.dumps(awemeDict, ensure_ascii=False, indent=2))
+                        (json.dump(awemeDict,f,ensure_ascii=False, indent=2))
                 except Exception as e:
                     print("[  错误  ]:保存 result.json 失败... 作品名: " + file_name + "\r\n")
 

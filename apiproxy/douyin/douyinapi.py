@@ -30,7 +30,7 @@ class DouyinApi(object):
 
     # 
     # 
-    def getKey(self, url:str)->tuple(str,str):
+    def getKey(self, url:str)->tuple[str,str]:
         """
         传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
         得到 作品id 或者 用户id
@@ -40,8 +40,9 @@ class DouyinApi(object):
 
         try:
             r = requests.get(url=url, headers=douyin_headers)
+            # print(r.text)
         except Exception as e:
-            print('[  错误  ]:输入链接有误！\r')
+            print('getKey函数发生[  错误  ]:',e)
             return key_type, key
 
         # 抖音把图集更新为note
@@ -100,7 +101,7 @@ class DouyinApi(object):
 
         return key_type, key
 
-    def getAwemeInfoApi(self, aweme_id:str)->tuple(dict,dict):
+    def getAwemeInfoApi(self, aweme_id:str)->tuple[dict,dict]:
         """
         传入视频ID
         返回自定义json格式数据和原始返回json数据
@@ -112,13 +113,13 @@ class DouyinApi(object):
             try:
                 jx_url = self.urls.POST_DETAIL + utils.getXbogus(
                     f'aweme_id={aweme_id}&device_platform=webapp&aid=6383')
-
                 raw = requests.get(url=jx_url, headers=douyin_headers).text
                 raw_dict = json.loads(raw)
                 if raw_dict is not None and raw_dict["status_code"] == 0:
                     break
             except Exception as e:
                 end = time.time()  # 结束时间
+                print("getAwemeInfoApi函数 While True 出错",e)
                 if end - start > self.timeout:
                     return None
 

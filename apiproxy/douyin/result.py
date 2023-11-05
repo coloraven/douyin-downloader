@@ -10,212 +10,212 @@ class Result(object):
     def __init__(self):
         # 作者信息
         self.authorDict = {
-            "avatar_thumb": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "avatar": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "cover_url": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            # 喜欢的作品数
-            "favoriting_count": "",
-            # 粉丝数
-            "follower_count": "",
-            # 关注数
-            "following_count": "",
-            # 昵称
-            "nickname": "",
-            # 是否允许下载
-            "prevent_download": "",
-            # 用户 url id
-            "sec_uid": "",
-            # 是否私密账号
-            "secret": "",
-            # 短id
-            "short_id": "",
-            # 签名
-            "signature": "",
-            # 总获赞数
-            "total_favorited": "",
-            # 用户id
-            "uid": "",
-            # 用户自定义唯一id 抖音号
-            "unique_id": "",
-            # 年龄
-            "user_age": "",
+                                        "avatar_thumb": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "avatar": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "cover_url": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        # 喜欢的作品数
+                                        "favoriting_count": "",
+                                        # 粉丝数
+                                        "follower_count": "",
+                                        # 关注数
+                                        "following_count": "",
+                                        # 昵称
+                                        "nickname": "",
+                                        # 是否允许下载
+                                        "prevent_download": "",
+                                        # 用户 url id
+                                        "sec_uid": "",
+                                        # 是否私密账号
+                                        "secret": "",
+                                        # 短id
+                                        "short_id": "",
+                                        # 签名
+                                        "signature": "",
+                                        # 总获赞数
+                                        "total_favorited": "",
+                                        # 用户id
+                                        "uid": "",
+                                        # 用户自定义唯一id 抖音号
+                                        "unique_id": "",
+                                        # 年龄
+                                        "user_age": "",
 
-        }
+                                    }
         # 图片信息
         self.picDict = {
-            "height": "",
-            "mask_url_list": "",
-            "uri": "",
-            "url_list": [],
-            "width": ""
-        }
+                                "height": "",
+                                "mask_url_list": "",
+                                "uri": "",
+                                "url_list": [],
+                                "width": ""
+                            }
         # 音乐信息
         self.musicDict = {
-            "cover_hd": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "cover_large": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "cover_medium": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "cover_thumb": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            # 音乐作者抖音号
-            "owner_handle": "",
-            # 音乐作者id
-            "owner_id": "",
-            # 音乐作者昵称
-            "owner_nickname": "",
-            "play_url": {
-                "height": "",
-                "uri": "",
-                "url_key": "",
-                "url_list": [],
-                "width": ""
-            },
-            # 音乐名字
-            "title": "",
-        }
+                                        "cover_hd": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "cover_large": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "cover_medium": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "cover_thumb": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        # 音乐作者抖音号
+                                        "owner_handle": "",
+                                        # 音乐作者id
+                                        "owner_id": "",
+                                        # 音乐作者昵称
+                                        "owner_nickname": "",
+                                        "play_url": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_key": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        # 音乐名字
+                                        "title": "",
+                                    }
         # 视频信息
         self.videoDict = {
-            "play_addr": {
-                "uri": "",
-                "url_list": [],
-            },
-            "cover_original_scale": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "dynamic_cover": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "origin_cover": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            },
-            "cover": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": ""
-            }
-        }
+                                        "play_addr": {
+                                            "uri": "",
+                                            "url_list": [],
+                                        },
+                                        "cover_original_scale": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "dynamic_cover": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "origin_cover": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        },
+                                        "cover": {
+                                            "height": "",
+                                            "uri": "",
+                                            "url_list": [],
+                                            "width": ""
+                                        }
+                                    }
         # mix信息
         self.mixInfo = {
-            "cover_url": {
-                "height": "",
-                "uri": "",
-                "url_list": [],
-                "width": 720
-            },
-            "ids": "",
-            "is_serial_mix": "",
-            "mix_id": "",
-            "mix_name": "",
-            "mix_pic_type": "",
-            "mix_type": "",
-            "statis": {
-                "current_episode": "",
-                "updated_to_episode": ""
-            }
-        }
+                                    "cover_url": {
+                                        "height": "",
+                                        "uri": "",
+                                        "url_list": [],
+                                        "width": 720
+                                    },
+                                    "ids": "",
+                                    "is_serial_mix": "",
+                                    "mix_id": "",
+                                    "mix_name": "",
+                                    "mix_pic_type": "",
+                                    "mix_type": "",
+                                    "statis": {
+                                        "current_episode": "",
+                                        "updated_to_episode": ""
+                                    }
+                                }
         # 作品信息
         self.awemeDict = {
-            # 作品创建时间
-            "create_time": "",
-            # awemeType=0 视频, awemeType=1 图集, awemeType=2 直播
-            "awemeType": "",
-            # 作品 id
-            "aweme_id": "",
-            # 作者信息
-            "author": self.authorDict,
-            # 作品描述
-            "desc": "",
-            # 图片
-            "images": [],
-            # 音乐
-            "music": self.musicDict,
-            # 合集
-            "mix_info": self.mixInfo,
-            # 视频
-            "video": self.videoDict,
-            # 作品信息统计
-            "statistics": {
-                "admire_count": "",
-                "collect_count": "",
-                "comment_count": "",
-                "digg_count": "",
-                "play_count": "",
-                "share_count": ""
-            }
-        }
+                                        # 作品创建时间
+                                        "create_time": "",
+                                        # awemeType=0 视频, awemeType=1 图集, awemeType=2 直播
+                                        "awemeType": "",
+                                        # 作品 id
+                                        "aweme_id": "",
+                                        # 作者信息
+                                        "author": self.authorDict,
+                                        # 作品描述
+                                        "desc": "",
+                                        # 图片
+                                        "images": [],
+                                        # 音乐
+                                        "music": self.musicDict,
+                                        # 合集
+                                        "mix_info": self.mixInfo,
+                                        # 视频
+                                        "video": self.videoDict,
+                                        # 作品信息统计
+                                        "statistics": {
+                                            "admire_count": "",
+                                            "collect_count": "",
+                                            "comment_count": "",
+                                            "digg_count": "",
+                                            "play_count": "",
+                                            "share_count": ""
+                                        }
+                                    }
         # 用户作品信息
         self.awemeList = []
         # 直播信息
         self.liveDict = {
-            # awemeType=0 视频, awemeType=1 图集, awemeType=2 直播
-            "awemeType": "",
-            # 是否在播
-            "status": "",
-            # 直播标题
-            "title": "",
-            # 直播cover
-            "cover": "",
-            # 头像
-            "avatar": "",
-            # 观看人数
-            "user_count": "",
-            # 昵称
-            "nickname": "",
-            # sec_uid
-            "sec_uid": "",
-            # 直播间观看状态
-            "display_long": "",
-            # 推流
-            "flv_pull_url": "",
-            # 分区
-            "partition": "",
-            "sub_partition": "",
-            # 最清晰的地址
-            "flv_pull_url0": "",
-        }
+                                    # awemeType=0 视频, awemeType=1 图集, awemeType=2 直播
+                                    "awemeType": "",
+                                    # 是否在播
+                                    "status": "",
+                                    # 直播标题
+                                    "title": "",
+                                    # 直播cover
+                                    "cover": "",
+                                    # 头像
+                                    "avatar": "",
+                                    # 观看人数
+                                    "user_count": "",
+                                    # 昵称
+                                    "nickname": "",
+                                    # sec_uid
+                                    "sec_uid": "",
+                                    # 直播间观看状态
+                                    "display_long": "",
+                                    # 推流
+                                    "flv_pull_url": "",
+                                    # 分区
+                                    "partition": "",
+                                    "sub_partition": "",
+                                    # 最清晰的地址
+                                    "flv_pull_url0": "",
+                                }
 
 
 

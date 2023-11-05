@@ -32,19 +32,15 @@ class Douyin(object):
         return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)[0]
 
 
-    def getKey(self, url):
+    def getKey(self, url:str)->tuple[str,str,str]:
         """    
-        传入 url 返回 key_type, key == 作品类型 , 作品id 或者 用户id
+        传入 url 返回 key_type:作品类型，key :作品id 或者 用户id
         传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
         """
         key = None
         key_type = None
+        urlstr = url
 
-        try:
-            r = requests.get(url=url, headers=douyin_headers)
-        except Exception as e:
-            print('[  错误  ]:输入链接有误！\r')
-            return key_type, key
 
         # 抖音把图集更新为note
         # 作品 第一步解析出来的链接是share/video/{aweme_id}
@@ -53,7 +49,19 @@ class Douyin(object):
         # https://www.iesdouyin.com/share/user/MS4wLjABAAAA06y3Ctu8QmuefqvUSU7vr0c_ZQnCqB0eaglgkelLTek?did=MS4wLjABAAAA1DICF9-A9M_CiGqAJZdsnig5TInVeIyPdc2QQdGrq58xUgD2w6BqCHovtqdIDs2i&iid=MS4wLjABAAAAomGWi4n2T0H9Ab9x96cUZoJXaILk4qXOJlJMZFiK6b_aJbuHkjN_f0mBzfy91DX1&with_sec_did=1&sec_uid=MS4wLjABAAAA06y3Ctu8QmuefqvUSU7vr0c_ZQnCqB0eaglgkelLTek&from_ssr=1&u_code=j8a5173b&timestamp=1674540164&ecom_share_track_params=%7B%22is_ec_shopping%22%3A%221%22%2C%22secuid%22%3A%22MS4wLjABAAAA-jD2lukp--I21BF8VQsmYUqJDbj3FmU-kGQTHl2y1Cw%22%2C%22enter_from%22%3A%22others_homepage%22%2C%22share_previous_page%22%3A%22others_homepage%22%7D&utm_source=copy&utm_campaign=client_share&utm_medium=android&app=aweme
         # 合集
         # https://www.douyin.com/collection/7093490319085307918
-        urlstr = str(r.request.path_url)
+        try:
+            r = requests.get(url=url, headers=douyin_headers)
+        except Exception as e:
+            print(f'Douyin.getKey函数 [  错误  ]:输入链接有误！{e}\r')
+            return urlstr,key_type, key
+        urlstr = "https://www.iesdouyin.com"+str(r.request.path_url)
+        # 第二步解析
+        try:
+            r = requests.get(url=urlstr, headers=douyin_headers,allow_redirects=True)
+            urlstr = "https://www.iesdouyin.com"+str(r.request.path_url)
+        except Exception as e:
+            print(f'Douyin.getKey函数 [  错误  ]:输入链接有误！{e}\r')
+            return urlstr,key_type, key
 
         if "/user/" in urlstr:
             # 获取用户 sec_uid
@@ -67,11 +75,11 @@ class Douyin(object):
         elif "/video/" in urlstr:
             # 获取作品 aweme_id
             key = re.findall('video/(\d+)?', urlstr)[0]
-            key_type = "aweme"
+            key_type = "video"
         elif "/note/" in urlstr:
             # 获取note aweme_id
             key = re.findall('note/(\d+)?', urlstr)[0]
-            key_type = "aweme"
+            key_type = "note"
         elif "/mix/detail/" in urlstr:
             # 获取合集 id
             key = re.findall('/mix/detail/(\d+)?', urlstr)[0]
@@ -98,9 +106,9 @@ class Douyin(object):
 
         if key is None or key_type is None:
             print('[  错误  ]:输入链接有误！无法获取 id\r')
-            return key_type, key
+            return urlstr,key_type, key
 
-        return key_type, key
+        return urlstr,key_type, key
 
 
     def getAwemeInfo(self, aweme_id:str)-> tuple[dict, dict]:
@@ -114,8 +122,8 @@ class Douyin(object):
             return None
 
         start = time.time()  # 开始时间
+        print("getAwemeInfo 接口不稳定, 有时服务器不返回数据, 需要重新获取")
         while True:
-            # 接口不稳定, 有时服务器不返回数据, 需要重新获取
             try:
                 # 单作品接口返回 'aweme_detail'
                 # 主页作品接口返回 'aweme_list'->['aweme_detail']
@@ -126,6 +134,8 @@ class Douyin(object):
                 raw_awemeDict = json.loads(raw)
                 if raw_awemeDict is not None and raw_awemeDict["status_code"] == 0:
                     break
+                else:
+                    time.sleep(10)
             except Exception as e:
                 end = time.time()  # 结束时间
                 if end - start > self.timeout:
@@ -151,12 +161,31 @@ class Douyin(object):
         return new_awemeDict, raw_awemeDict
 
     # 传入 url 支持 https://www.iesdouyin.com 与 https://v.douyin.com
-    # mode : post | like 模式选择 like为用户点赞 post为用户发布
-    def getUserInfo(self, sec_uid, mode="post", count=35, number=0, increase=False):
-        print('[  提示  ]:正在请求的用户 id = %s\r\n' % sec_uid)
+    # mode : post | like 模式选择 like为用户点赞 ，post为用户发布
+    def getUserInfo(self, sec_uid:str, mode:str="post", step_count:int=35, total_number:int=0, increase:bool=False)->list:
+        """
+        获取 某用户 名下指定数量的作品数据。
+        给定用户sec_uid，以列表形式返回用户所有的作品，一个列表元素为一个作品，字典类型，包含作品链接和作者信息。
+
+        参数:
+            sec_uid (str): 比如 "极品雕"的sec_uid为'MS4wLjABAAAAvUmrQokPxZSI9PiO2QSyqlyKEgz5di9PmT1YbQ6G3JQ'。
+
+            mode (str, optional): post或者like。默认为"post"。post为用户发布的作品，like为用户喜欢的作品。
+
+            count (int, optional): 单次请求获取的作品数量。默认为35。
+
+            number (int, optional): 拟获取的作品总数量。默认为0。
+
+            increase (bool, optional): 是否在数据库中进行增量更新。默认为False。
+        """
+
+        # 检查参数值
+        if mode not in ('post', 'like'):
+            raise ValueError("getUserInfo函数的 mode 参数必须是 'post' 或 'like'")
+        print('[  提示  ]:正在请求的用户 sec_uid = %s\r\n' % sec_uid)
         if sec_uid is None:
             return None
-        if number <= 0:
+        if total_number <= 0:
             numflag = False
         else:
             numflag = True
@@ -179,10 +208,10 @@ class Douyin(object):
                 try:
                     if mode == "post":
                         url = self.urls.USER_POST + utils.getXbogus(
-                            f'sec_user_id={sec_uid}&count={count}&max_cursor={max_cursor}&device_platform=webapp&aid=6383')
+                            f'sec_user_id={sec_uid}&count={step_count}&max_cursor={max_cursor}&device_platform=webapp&aid=6383')
                     elif mode == "like":
                         url = self.urls.USER_FAVORITE_A + utils.getXbogus(
-                            f'sec_user_id={sec_uid}&count={count}&max_cursor={max_cursor}&device_platform=webapp&aid=6383')
+                            f'sec_user_id={sec_uid}&count={step_count}&max_cursor={max_cursor}&device_platform=webapp&aid=6383')
                     else:
                         print("[  错误  ]:模式选择错误, 仅支持post、like、mix, 请检查后重新运行!\r")
                         return None
@@ -199,7 +228,7 @@ class Douyin(object):
                         print("[  提示  ]:重复请求该接口" + str(self.timeout) + "s, 仍然未获取到数据")
                         return awemeList
 
-
+            # 本函数与数据库储存相关代码
             for aweme in datadict["aweme_list"]:
                 if self.database:
                     # 退出条件
@@ -231,8 +260,8 @@ class Douyin(object):
                         break
 
                 if numflag:
-                    number -= 1
-                    if number == 0:
+                    total_number -= 1
+                    if total_number == 0:
                         numberis0 = True
 
                 # 清空self.awemeDict
@@ -251,7 +280,7 @@ class Douyin(object):
 
                 if self.result.awemeDict is not None and self.result.awemeDict != {}:
                     awemeList.append(copy.deepcopy(self.result.awemeDict))
-
+            # 本函数与数据库储存相关代码
             if self.database:
                 if increase and numflag is False and increaseflag:
                     print("\r\n[  提示  ]: [主页] 下作品增量更新数据获取完成...\r\n")
@@ -272,7 +301,7 @@ class Douyin(object):
 
             # 退出条件
             if datadict["has_more"] == 0 or datadict["has_more"] == False:
-                print("\r\n[  提示  ]: [主页] 下所有作品数据获取完成...\r\n")
+                print("\r\n[  提示  ]: [主页] 下所有作品数据完成...\r\n")
                 break
             else:
                 print("\r\n[  提示  ]:[主页] 第 " + str(times) + " 次请求成功...\r\n")
